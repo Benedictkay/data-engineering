@@ -3,8 +3,29 @@
 A production-ready data engineering pipeline that ingests, processes, and manages NYC taxi trip data using Docker, PostgreSQL, and pgAdmin. This project demonstrates best practices in containerization, data orchestration, and database management.
 
 ## 📋 Project Overview
+## 📁 Workspace Structure
 
-This project creates a scalable ETL (Extract, Transform, Load) pipeline that:
+This workspace contains multiple data engineering projects and assignments:
+
+```
+data-engineering/
+├── NewYork-taxi-data/          # Main NYC taxi pipeline project
+│   ├── pipeline/               # Data pipeline code and Docker configs
+│   ├── test/                   # Project tests
+│   └── pyproject.toml          # Project dependencies
+├── homework/                   # Data engineering assignments
+└── README.md                   # This file
+```
+
+### Projects
+
+- **NewYork-taxi-data** - Production-ready ETL pipeline for NYC taxi data
+
+---
+
+## 📋 Project Overview
+
+The NewYork-taxi-data project creates a scalable ETL (Extract, Transform, Load) pipeline that:
 
 - **Extracts** NYC taxi trip data from GitHub releases (CSV format)
 - **Transforms** data with proper data typing and validation
