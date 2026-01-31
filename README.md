@@ -1,162 +1,30 @@
-# NYC Taxi Data Engineering Pipeline
+# data-engineering
 
-A production-ready data engineering pipeline that ingests, processes, and manages NYC taxi trip data using Docker, PostgreSQL, and pgAdmin. This project demonstrates best practices in containerization, data orchestration, and database management.
+This workspace is a monorepo that holds multiple data engineering projects and assignments. The root README documents the workspace layout and how the repository is intended to be organized; each project contains its own README with project-specific instructions (how to run, dependencies, and design).
 
-## 📋 Project Overview
-## 📁 Workspace Structure
-
-This workspace contains multiple data engineering projects and assignments:
+Workspace layout
 
 ```
 data-engineering/
-├── NewYork-taxi-data/          # Main NYC taxi pipeline project
-│   ├── pipeline/               # Data pipeline code and Docker configs
-│   ├── test/                   # Project tests
-│   └── pyproject.toml          # Project dependencies
-├── homework/                   # Data engineering assignments
-└── README.md                   # This file
+├── NewYork-taxi-data/    # Project: ETL pipeline for NYC taxi data (see its README)
+├── homework/             # Assignments and exercises (each assignment should have a folder and README)
+└── README.md             # This file: workspace structure and intent
 ```
 
-### Projects
+How to add a new project
 
-- **NewYork-taxi-data** - Production-ready ETL pipeline for NYC taxi data
+- Create a new folder at the repository root (e.g. `my-new-project/`).
+- Add a `README.md` inside that folder describing how to build, run, and test the project.
+- Keep project dependencies and configs inside the project folder (e.g. `pyproject.toml`, `docker-compose.yaml`).
+- If multiple projects share code, add a top-level `shared/` folder and reference it explicitly.
 
----
+Guidelines
 
-## 📋 Project Overview
+- Root README: only explains workspace structure and conventions.
+- Project README: documents project purpose, setup, run instructions, and dependencies.
+- Keep CI, docs, and shared utilities at the top-level when they are truly shared across projects.
 
-The NewYork-taxi-data project creates a scalable ETL (Extract, Transform, Load) pipeline that:
-
-- **Extracts** NYC taxi trip data from GitHub releases (CSV format)
-- **Transforms** data with proper data typing and validation
-- **Loads** processed data into PostgreSQL 18 database
-- **Manages** database through pgAdmin web interface
-- **Orchestrates** all services using Docker Compose
-
-### Architecture
-
-```
-Data Source (CSV)
-       ↓
-   taxi_ingest Container
-   (Download & Transform)
-       ↓
-PostgreSQL 18 Database
-       ↓
-   pgAdmin 4 UI
-   (Query & Manage)
-```
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Docker & Docker Compose installed
-- 2GB free disk space minimum
-- Port 5432 and 8085 available
-
-### Launch Services
-
-```bash
-cd pipeline
-docker-compose up -d
-```
-
-Verify services are running:
-```bash
-docker-compose ps
-```
-
-Expected output:
-```
-NAME                     IMAGE              STATUS
-pipeline-postgres-1      postgres:18        Up X seconds
-pgadmin                  dpage/pgadmin4     Up X seconds
-```
-
-### Access Services
-
-- **pgAdmin Web UI**: http://localhost:8085
-  - Email: `admin@admin.com`
-  - Password: `root`
-  - Connect to: `postgres` (service name) on port 5432
-
-- **PostgreSQL Direct**:
-  - Host: `localhost`
-  - Port: `5432`
-  - Username: `root`
-  - Password: `root`
-  - Database: `ny_taxi`
-
----
-
-## 📊 Loading Data
-
-### Load 2021 Yellow Taxi Data
-
-```bash
-docker run -it --rm \
-  --network=pipeline_pg-network \
-  taxi_ingest:v001 \
-  --pg-user=root \
-  --pg-pass=root \
-  --pg-host=postgres \
-  --pg-port=5432 \
-  --pg-db=ny_taxi \
-  --target-table=yellow_taxi_trips_2021_1 \
-  --chunksize=100000
-```
-
-### Load Custom Dataset
-
-```bash
-docker run -it --rm \
-  --network=pipeline_pg-network \
-  taxi_ingest:v001 \
-  --pg-user=root \
-  --pg-pass=root \
-  --pg-host=postgres \
-  --pg-port=5432 \
-  --pg-db=ny_taxi \
-  --target-table=your_table_name \
-  --chunksize=100000 \
-  --url=https://path/to/your/data.csv.gz
-```
-
-### Data Schema
-
-Loaded data includes:
-- VendorID, Pickup & Dropoff DateTime
-- Passenger Count, Trip Distance
-- Rate Code, Location IDs
-- Fare Details (base, tip, tax, surcharge)
-- Payment Type, Congestion Surcharge
-
----
-
-## 📁 Project Structure
-
-```
-data-engineering/
-├── README.md                          # This file
-├── Docker_Mastery_Guide.md           # Comprehensive Docker documentation
-│
-└── pipeline/
-    ├── docker-compose.yaml           # Services orchestration
-    ├── Dockerfile                    # PostgreSQL setup (if custom)
-    ├── Dockerfile.ingest             # Data ingest container
-    ├── ingest_data.py                # Python ingest script
-    ├── main.py                       # Main pipeline orchestrator
-    ├── pipeline.py                   # Pipeline utilities
-    ├── pyproject.toml                # Python dependencies (UV)
-    ├── README.md                     # Pipeline-specific docs
-    └── Notebook.ipynb                # Exploratory data analysis
-```
-
----
-
+That's it — open a project folder (for example, `NewYork-taxi-data/`) to find project-specific documentation and instructions.
 ## 🔧 Services Configuration
 
 ### PostgreSQL 18
